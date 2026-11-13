@@ -21,6 +21,39 @@ class ActionResult(BaseModel):
     entry: dict[str, Any] | None = None
 
 
+class BatchActionItem(BaseModel):
+    """批量动作里单条记录的处理结论。"""
+
+    entry_id: int
+    路径编号: str | None = None
+    ok: bool
+    message: str
+
+
+class BatchActionResult(BaseModel):
+    """批量动作结果：整组校验通过才整体生效，结论逐条返回。"""
+
+    ok: bool
+    message: str
+    results: list[BatchActionItem] = Field(default_factory=list)
+
+
+class BatchActionPayload(BaseModel):
+    """批量动作入参：一次提交多条路径。"""
+
+    entry_ids: list[int] = Field(default_factory=list)
+    action: str | None = None
+    remark: str | None = None
+
+
+class VersionPublishPayload(BaseModel):
+    """模板版本替换入参：expected_version 用于乐观并发控制。"""
+
+    expected_version: int
+    values: dict[str, Any] = Field(default_factory=dict)
+    remark: str | None = None
+
+
 class EntryPayload(BaseModel):
     """登记或修改一条业务记录时提交的字段集合。"""
 

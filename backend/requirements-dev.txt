@@ -1,0 +1,4 @@
+# 验收测试依赖：仅在本地/CI 跑 tests/ 时需要，运行时不依赖。
+# 用例本身基于标准库 unittest，无需 pytest；httpx 提供 ASGITransport 走真实路由调用链。
+-r requirements.txt
+httpx>=0.27
